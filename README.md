@@ -1,0 +1,1 @@
+La funcionalitat principal d’aquesta aplicació és la de generar, de manera aleatòria, un menú setmanal de cinc plats, assignats de dilluns a divendres. A més, s’han de poder veure, afegir, eliminar i modificar plats.
