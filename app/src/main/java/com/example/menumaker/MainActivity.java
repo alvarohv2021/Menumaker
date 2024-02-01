@@ -31,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://menumaker-2934c-default-rtdb.europe-west1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("Platos");
 
-        myRef.push().child("Pez");
-
-        myRef.push().setValue("Salmon");
+        myRef.child("PEZ").push().setValue("Salmon");
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
