@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class Authentication extends AppCompatActivity {
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,19 +29,19 @@ public class Authentication extends AppCompatActivity {
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
-        EditText email =findViewById(R.id.email);
+        EditText email = findViewById(R.id.email);
         EditText password = findViewById(R.id.password);
 
         Button logInButton = findViewById(R.id.logInButton);
         Button signUnButton = findViewById(R.id.signUpButton);
 
         signUnButton.setOnClickListener(view -> {
-            createAccount(email.getText().toString(),password.getText().toString());
+            createAccount(email.getText().toString(), password.getText().toString());
         });
         logInButton.setOnClickListener(view -> {
-            logIn(email.getText().toString(),password.getText().toString());
+            logIn(email.getText().toString(), password.getText().toString());
         });
-        
+
     }
 
     private void logIn(String email, String password) {
@@ -54,7 +55,8 @@ public class Authentication extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             Intent intent = new Intent(Authentication.this, MainActivity.class);
-                            intent.putExtra("usuario", 0);
+                            //Con user.getUid() pasamos la que seria la clave del usuario registrado en firebase
+                            intent.putExtra("idUsuario", user.getUid());
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -79,7 +81,8 @@ public class Authentication extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             Intent intent = new Intent(Authentication.this, MainActivity.class);
-                            intent.putExtra("usuario", 0);
+                            //Con user.getUid() pasamos la que seria la clave del usuario registrado en firebase
+                            intent.putExtra("idUsuario", user.getUid());
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -93,14 +96,13 @@ public class Authentication extends AppCompatActivity {
 
     }
 
-    
 
     @Override
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if(currentUser != null){
+        if (currentUser != null) {
             currentUser.reload();
         }
     }
