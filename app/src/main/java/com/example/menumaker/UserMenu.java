@@ -37,6 +37,7 @@ public class UserMenu extends AppCompatActivity {
         nombrePlato = findViewById(R.id.nombrePlatoUserMenu);
         selectorCategoria = findViewById(R.id.SelectorCategoriaUserMenu);
 
+        //Con esta parte de aquí recibimos le valor, en formato String, que tenia nuestro menu dropdown en el momento en el que pulsaron el boton
         selectorCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long id) {
@@ -51,6 +52,7 @@ public class UserMenu extends AppCompatActivity {
 
         String idUsuario = checkCurrentUser();
 
+        //Al pulsar el botón llama al metodo que inserta los datos desados, en este caso serian: idUsuario, categoria del plato y nombre del plato
         buttonAñadirPlato.setOnClickListener(v -> {
             insertarPlatos(idUsuario, categoria, nombrePlato.getText().toString());
         });
