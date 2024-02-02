@@ -6,15 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".UserMenu">
 
-    <Spinner
-        android:id="@+id/SelectorCategoriaUserMenu"
+    <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_margin="50px"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/SelectorCategoriaUserMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginEnd="1dp" />
+
+            <EditText
+                android:id="@+id/nombrePlatoUserMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Nombre de Plato"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/añadirPlatoButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#E63946"
+            android:text="+" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

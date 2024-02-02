@@ -56,7 +56,6 @@ public class Authentication extends AppCompatActivity {
 
                             Intent intent = new Intent(Authentication.this, MainActivity.class);
                             //Con user.getUid() pasamos la que seria la clave del usuario registrado en firebase
-                            intent.putExtra("idUsuario", user.getUid());
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -81,8 +80,6 @@ public class Authentication extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             Intent intent = new Intent(Authentication.this, MainActivity.class);
-                            //Con user.getUid() pasamos la que seria la clave del usuario registrado en firebase
-                            intent.putExtra("idUsuario", user.getUid());
                             startActivity(intent);
                         } else {
                             // If sign in fails, display a message to the user.
