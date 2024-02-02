@@ -8,42 +8,39 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="155dp"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="200px"
+        android:background="#E63946"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <EditText
-            android:id="@+id/MainTextNombre"
+        <TextView
+            android:id="@+id/brandName"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:text="Nombre"
-            android:textAlignment="center"
-            android:textColor="#1D3557" />
-
-        <EditText
-            android:id="@+id/MainEditContraseña"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
-            android:text="Contraseña"
-            android:textAlignment="center"
-            android:textColor="#1D3557" />
-
-        <Button
-            android:id="@+id/MainButtonEviar"
-            android:layout_width="211dp"
             android:layout_height="match_parent"
-            android:backgroundTint="#E63946"
-            android:text="Enviar"
-            app:cornerRadius="25px" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="MenuMaker"
+            android:textAlignment="center"
+            android:textColor="#f1faee" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/homeImagenCabezeraView"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="75dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@android:color/transparent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fondo3"></ImageView>
+
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
