@@ -38,17 +38,7 @@ public class UserMenu extends AppCompatActivity {
         selectorCategoria = findViewById(R.id.SelectorCategoriaUserMenu);
 
         //Con esta parte de aquí recibimos le valor, en formato String, que tenia nuestro menu dropdown en el momento en el que pulsaron el boton
-        selectorCategoria.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long id) {
-                categoria = (String) adapterView.getItemAtPosition(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
+        categoria = spinner.getSelectedItem().toString();
 
         String idUsuario = checkCurrentUser();
 
@@ -59,19 +49,17 @@ public class UserMenu extends AppCompatActivity {
     }
 
     public String checkCurrentUser() {
-        // [START check_current_user]
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             return user.getUid();
         }
-        // [END check_current_user]
         return null;
     }
 
     public void insertarPlatos(String idUsuario, String selectorCategoria, String nombrePlato) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://menumaker-2934c-default-rtdb.europe-west1.firebasedatabase.app/");
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(idUsuario);
 
-        myRef.child(categoria).push().setValue(nombrePlato);
+        myRef.child(selectorCategoria).push().setValue(nombrePlato);
     }
 }

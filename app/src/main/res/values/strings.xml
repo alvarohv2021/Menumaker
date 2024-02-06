@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">dropDownMenuExample</string>
+    <string name="MenuMaker" />
     <string-array name="languages">
         <item>PASTA</item>
         <item>ARROZ</item>
