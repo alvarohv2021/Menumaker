@@ -29,22 +29,26 @@ public class UserMenu extends AppCompatActivity {
 
         spinner = findViewById(R.id.SelectorCategoriaUserMenu);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.languages, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.categorias, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         buttonAñadirPlato = findViewById(R.id.añadirPlatoButton);
         nombrePlato = findViewById(R.id.nombrePlatoUserMenu);
-        selectorCategoria = findViewById(R.id.SelectorCategoriaUserMenu);
 
-        //Con esta parte de aquí recibimos le valor, en formato String, que tenia nuestro menu dropdown en el momento en el que pulsaron el boton
-        categoria = spinner.getSelectedItem().toString();
-
-        String idUsuario = checkCurrentUser();
-
-        //Al pulsar el botón llama al metodo que inserta los datos desados, en este caso serian: idUsuario, categoria del plato y nombre del plato
         buttonAñadirPlato.setOnClickListener(v -> {
-            insertarPlatos(idUsuario, categoria, nombrePlato.getText().toString());
+            String idUsuario = checkCurrentUser();
+            if (idUsuario != null) {
+                String categoria = spinner.getSelectedItem().toString();
+                String nombreDelPlato = nombrePlato.getText().toString();
+                if (!nombreDelPlato.isEmpty()) {
+                    insertarPlatos(idUsuario, categoria, nombreDelPlato);
+                } else {
+                    // Handle case where dish name is empty
+                }
+            } else {
+                // Handle case where user is not authenticated
+            }
         });
     }
 
@@ -57,9 +61,8 @@ public class UserMenu extends AppCompatActivity {
     }
 
     public void insertarPlatos(String idUsuario, String selectorCategoria, String nombrePlato) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(idUsuario);
-
-        myRef.child(selectorCategoria).push().setValue(nombrePlato);
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://menumaker-2934c-default-rtdb.europe-west1.firebasedatabase.app/");
+        DatabaseReference reference = database.getReference(idUsuario);
+        reference.child(selectorCategoria).push().setValue(nombrePlato);
     }
 }

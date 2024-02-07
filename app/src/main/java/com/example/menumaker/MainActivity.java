@@ -25,6 +25,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements DatabaseCallback {
 
     String idUsuario;
+    Intent intent;
     ImageView imagenPerfil;
     TextView categoria1;
     TextView plato1;
@@ -38,11 +39,17 @@ public class MainActivity extends AppCompatActivity implements DatabaseCallback 
         categoria1 = findViewById(R.id.categoryName1);
         plato1 = findViewById(R.id.mealName1);
 
+        //=============Recuperamos el id del usuario logeado, dado que es un nodo en la base de datos=============//
         idUsuario = checkCurrentUser();
         Log.d("FirebaseData", "ID Usuario: " + idUsuario);
 
         getData();
 
+        //=============Hacer de la imagen un link al menu del usuario=============//
+        imagenPerfil.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, UserMenu.class);
+            startActivity(intent);
+        });
     }
 
     public String checkCurrentUser() {
@@ -56,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements DatabaseCallback 
 
     public void getData() {
         if (idUsuario != null) {
-            DatabaseReference reference = FirebaseDatabase.getInstance().getReference(idUsuario).child("ARROZ");
+            DatabaseReference reference = FirebaseDatabase.getInstance("https://menumaker-2934c-default-rtdb.europe-west1.firebasedatabase.app/").getReference(idUsuario).child("ARROZ");
 
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -88,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements DatabaseCallback 
             Log.d("FirebaseData", "Key: " + key + ", Valor: " + value);
         }
     }
-
 
     @Override
     public void onError(DatabaseError databaseError) {
