@@ -3,12 +3,14 @@ package com.example.menumaker;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -19,43 +21,51 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
-public class MainActivity extends AppCompatActivity implements DatabaseCallback {
+public class MainActivity extends AppCompatActivity {
 
     String idUsuario;
-    Intent intent;
     ImageView imagenPerfil;
-    TextView categoria1;
-    TextView plato1;
+    List<Plato> platos;
+    RecyclerView recyclerView;
+    RecyclerViewAdapter adapter;
+    Plato plato;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        recyclerView = findViewById(R.id.recyclerView);
+
         imagenPerfil = findViewById(R.id.homeImagenCabezeraView);
-        categoria1 = findViewById(R.id.categoryName1);
-        plato1 = findViewById(R.id.mealName1);
 
-        //=============Recuperamos el id del usuario logeado, dado que es un nodo en la base de datos=============//
+        //==========Recuperamos el id del usuario logeado==========//
         idUsuario = checkCurrentUser();
-        Log.d("FirebaseData", "ID Usuario: " + idUsuario);
 
-        getData();
+        //==========Recibimos los datos y trabajamos con ellos==========//
+        platos = new ArrayList<>();
+        adapter = new RecyclerViewAdapter(platos, MainActivity.this); // Inicializar el adaptador
+        recyclerView.setAdapter(adapter); // Configurar el adaptador en el RecyclerView
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
-        //=============Hacer de la imagen un link al menu del usuario=============//
+        getData(); // Obtener los datos de Firebase
+
+        //==========Hacemos de la imágen de perfil, un link para ir al menu del usuario==========//
         imagenPerfil.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, UserMenu.class);
             startActivity(intent);
         });
     }
 
+
     public String checkCurrentUser() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            Log.d("FirebaseData", "Typo de valor ID Usuario: " + user.getUid().getClass());
             return user.getUid();
         }
         return null;
@@ -63,42 +73,33 @@ public class MainActivity extends AppCompatActivity implements DatabaseCallback 
 
     public void getData() {
         if (idUsuario != null) {
-            DatabaseReference reference = FirebaseDatabase.getInstance("https://menumaker-2934c-default-rtdb.europe-west1.firebasedatabase.app/").getReference(idUsuario).child("ARROZ");
+            DatabaseReference reference = FirebaseDatabase.getInstance("https://menumaker-2934c-default-rtdb.europe-west1.firebasedatabase.app/")
+                    .getReference(idUsuario);
 
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    // Llama al método onCallback de la interfaz con los datos.
-                    onCallback(dataSnapshot);
+
+                    for (DataSnapshot categoriaSnapshot : dataSnapshot.getChildren()) {
+                        String categoria = categoriaSnapshot.getKey(); // Obtener el nombre de la categoría
+
+                        for (DataSnapshot platoSnapshot : categoriaSnapshot.getChildren()) {
+                            String platoValue = platoSnapshot.getValue(String.class); // Obtener el nombre del plato
+                            plato = new Plato(categoria, platoValue);
+                            platos.add(plato);
+                        }
+                    }
+                    adapter.notifyDataSetChanged(); // Notificar al adaptador que los datos han cambiado
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Llama al método onError de la interfaz en caso de error.
-                    onError(databaseError);
+                    Log.e("FirebaseError", "Error al obtener datos de ARROZ: " + databaseError.getMessage());
                 }
             });
         } else {
             Log.e("FirebaseError", "ID de usuario nulo");
         }
     }
-
-    @Override
-    public void onCallback(DataSnapshot dataSnapshot) {
-        // Maneja los datos de forma síncrona aquí.
-        // Por ejemplo:
-        for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
-            String key = childSnapshot.getKey();
-            String value = childSnapshot.getValue(String.class);
-            categoria1.setText(key);
-            plato1.setText(value);
-            Log.d("FirebaseData", "Key: " + key + ", Valor: " + value);
-        }
-    }
-
-    @Override
-    public void onError(DatabaseError databaseError) {
-        // Maneja los errores de forma síncrona aquí.
-        Log.e("FirebaseError", "Error al obtener datos de ARROZ: " + databaseError.getMessage());
-    }
 }
+
