@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#00BCD4"
+            android:background="#14213d"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -40,19 +40,22 @@
                     android:layout_height="wrap_content"
                     android:text="Categoria"
                     android:textAlignment="center"
+                    android:textColor="#e5e5e5"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textViewPlato"
                     android:layout_width="match_parent"
                     android:layout_height="92dp"
-                    android:text="Plato" />
+                    android:text="Plato"
+                    android:textColor="#e5e5e5" />
 
                 <Button
                     android:id="@+id/removElementButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:backgroundTint="#fca311"
                     android:text="Eliminar"
                     app:cornerRadius="25dp"
                     tools:cornerRadius="25px" />

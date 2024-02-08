@@ -7,11 +7,48 @@
     tools:context=".UserMenu">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200px"
+        android:background="#14213d"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/brandName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="MenuMaker"
+            android:textAlignment="center"
+            android:textColor="#f1faee" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="75dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@android:color/transparent">
+
+            <ImageView
+                android:id="@+id/homeImagenCabezeraView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fondo3"></ImageView>
+
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/linearLayout5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="50px"
+        android:background="#e5e5e5"
         android:orientation="vertical"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +80,7 @@
             android:id="@+id/añadirPlatoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="#E63946"
+            android:backgroundTint="#fca311"
             android:text="+" />
 
     </LinearLayout>
