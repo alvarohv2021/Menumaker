@@ -97,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
                             String idPlato = platoSnapshot.getKey();
                             String platoValue = platoSnapshot.getValue(String.class); // Obtener el nombre del plato
                             plato = new Plato(categoria, platoValue, idPlato);//Objeto "plato", los parametros son la informacion recibida
-                            platos.add(plato);//Añadimos cada plato a la lista de platos
+                            if (platos.size() < 5) {
+                                platos.add(plato);//Añadimos cada plato a la lista de platos
+                            }
 
                         }
                     }

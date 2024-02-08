@@ -50,10 +50,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             notifyDataSetChanged();
         });
-
-
-        Log.d("RecyclerViewAdapter", "Categoría: " + plato.getNombreCategoria());
-        Log.d("RecyclerViewAdapter", "Plato: " + plato.getNombrePlato());
     }
 
     @Override
