@@ -5,9 +5,12 @@ public class Plato {
     private String nombrePlato;
     private String nombreCategoria;
 
-    public Plato(String categoria, String plato) {
+    private String idPlato;
+
+    public Plato(String categoria, String plato, String idPlato) {
         this.nombreCategoria = categoria;
         this.nombrePlato = plato;
+        this.idPlato = idPlato;
     }
 
     public String getNombrePlato() {
@@ -24,5 +27,9 @@ public class Plato {
 
     public void setNombreCategoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
+    }
+
+    public String getIdPlato() {
+        return this.idPlato;
     }
 }

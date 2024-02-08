@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     String idUsuario;
+    DatabaseReference reference;
     ImageView imagenPerfil;
     List<Plato> platos;
     RecyclerView recyclerView;
@@ -47,13 +49,16 @@ public class MainActivity extends AppCompatActivity {
         //==========Recuperamos el id del usuario logeado==========//
         idUsuario = checkCurrentUser();
 
+        //==========Recuperamos la referencia de nuestra base de datos==========//
+        reference = getDBReference();
+
         //==========Recibimos los datos y trabajamos con ellos==========//
         platos = new ArrayList<>();
-        adapter = new RecyclerViewAdapter(platos, MainActivity.this); // Inicializar el adaptador
+        adapter = new RecyclerViewAdapter(platos, MainActivity.this, reference); // Inicializar el adaptador
         recyclerView.setAdapter(adapter); // Configurar el adaptador en el RecyclerView
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
 
-        getData(); // Obtener los datos de Firebase
+        getData(reference); // Obtener los datos de Firebase
 
         //==========Hacemos de la imágen de perfil, un link para ir al menu del usuario==========//
         imagenPerfil.setOnClickListener(v -> {
@@ -71,25 +76,33 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    public void getData() {
-        if (idUsuario != null) {
-            DatabaseReference reference = FirebaseDatabase.getInstance("https://menumaker-2934c-default-rtdb.europe-west1.firebasedatabase.app/")
-                    .getReference(idUsuario);
+    public DatabaseReference getDBReference() {
+        DatabaseReference reference = FirebaseDatabase.getInstance("https://menumaker-2934c-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference(idUsuario);
+        return reference;
+    }
 
+    ;
+
+    public void getData(DatabaseReference reference) {
+        if (idUsuario != null) {
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                     for (DataSnapshot categoriaSnapshot : dataSnapshot.getChildren()) {
-                        String categoria = categoriaSnapshot.getKey(); // Obtener el nombre de la categoría
+                        String categoria = categoriaSnapshot.getKey(); // Obtener la categoría del plato
 
                         for (DataSnapshot platoSnapshot : categoriaSnapshot.getChildren()) {
+                            String idPlato = platoSnapshot.getKey();
                             String platoValue = platoSnapshot.getValue(String.class); // Obtener el nombre del plato
-                            plato = new Plato(categoria, platoValue);
-                            platos.add(plato);
+                            plato = new Plato(categoria, platoValue, idPlato);//Objeto "plato", los parametros son la informacion recibida
+                            platos.add(plato);//Añadimos cada plato a la lista de platos
+
                         }
                     }
-                    adapter.notifyDataSetChanged(); // Notificar al adaptador que los datos han cambiado
+                    Collections.shuffle(platos);
+                    adapter.notifyDataSetChanged();
                 }
 
                 @Override
